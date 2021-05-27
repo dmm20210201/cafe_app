@@ -1,0 +1,2 @@
+module CafeImagesHelper
+end

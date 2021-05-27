@@ -1,0 +1,11 @@
+<h1>Cafe</h1>
+
+<%= link_to '投稿フォーム', new_cafe_image_path %>
+
+<% @cafe_images.each do |cafe_image| %>
+<div>
+  <%= attachment_image_tag cafe_image, :image %>
+  <p>ショップ名：<%= cafe_image.shop_name %></p>
+  <p>説明：<%= cafe_image.caption %></p>
+</div>
+<% end %>
