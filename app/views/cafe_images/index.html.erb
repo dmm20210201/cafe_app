@@ -4,8 +4,28 @@
 
 <% @cafe_images.each do |cafe_image| %>
 <div>
-  <%= attachment_image_tag cafe_image, :image %>
+  <%= attachment_image_tag cafe_image, :image,:fill, 250, 250, format: 'jpeg' %>
   <p>ショップ名：<%= cafe_image.shop_name %></p>
   <p>説明：<%= cafe_image.caption %></p>
+  <p>ユーザーネーム：<%= cafe_image.user.name %></p>
+  <p>投稿日時：<%= cafe_image.created_at.strftime('%Y/%m/%d') %></p>
+  <% if cafe_image.user == current_user %>
+    <%= link_to "編集", edit_cafe_image_path(cafe_image.id) %>
+    <%= link_to "削除", cafe_image_path(cafe_image.id), method: :delete %>
+  <% end %>
+  <% if cafe_image.favorited_by?(current_user) %>
+    <p>
+      <%= link_to favorites_path(id: cafe_image.id, cafe_image_id: cafe_image.id), method: :delete do %>
+        ♥<%= cafe_image.favorites.count %> いいね
+      <% end %>
+    </p>
+    <% else %>
+    <p>
+      <%= link_to favorites_path(id: cafe_image.id, cafe_image_id: cafe_image.id), method: :post do %>
+        ♡<%= cafe_image.favorites.count %> いいね
+      <% end %>
+    </p>
+  <% end %>
 </div>
 <% end %>
+<%= paginate @cafe_images %>
